@@ -11,7 +11,7 @@ import java.util.*;
 public class Consignatiebon {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long consignatiebonId;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Gebruiker gebruiker;
     private LocalDate datumIn;
     private LocalDate datumUit;
