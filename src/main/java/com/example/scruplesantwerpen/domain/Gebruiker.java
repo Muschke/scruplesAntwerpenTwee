@@ -28,7 +28,7 @@ public class Gebruiker {
     @Enumerated(EnumType.STRING)
     private Gebruikersrol rol;
     private String extraOpmerking;
-    @OneToMany //@JoinColumn(name = "consignatiebonId")
+    @OneToMany(mappedBy = "gebruiker") //@JoinColumn(name = "consignatiebonId")
     //@OrderBy(attribute1, attribute2,..
     private Set<Consignatiebon> consignatiebonSet = new LinkedHashSet<>();
 
