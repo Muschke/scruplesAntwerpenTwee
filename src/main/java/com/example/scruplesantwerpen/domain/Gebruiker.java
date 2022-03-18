@@ -11,11 +11,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "gebruikers")
-@NamedEntityGraph(name = "Gebruiker.metConsigatiebonSet",
-        attributeNodes = @NamedAttributeNode("consignatiebonSet"))
 public class Gebruiker {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idgebruikers;
+    private long idgebruiker;
     private String voornaam;
     private String naam;
     private String mail;
@@ -52,8 +50,8 @@ public class Gebruiker {
 
 
 
-    public long getIdgebruikers() {
-        return idgebruikers;
+    public long getIdgebruiker() {
+        return idgebruiker;
     }
 
     public String getVoornaam() {

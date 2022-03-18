@@ -12,7 +12,7 @@ import java.util.*;
         attributeNodes = {@NamedAttributeNode("productSet"), @NamedAttributeNode("gebruiker")})*/
 public class Consignatiebon {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idconsignatieBonnen;
+    private long idConsignatiebon;
     @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idgebruikers")
     private Gebruiker gebruiker;
     private LocalDate datumIn;
@@ -28,7 +28,6 @@ public class Consignatiebon {
         this.datumIn = datumIn;
         this.datumUit = datumUit;
         this.handtekening = handtekening;
-
     }
 
     protected Consignatiebon() {};
@@ -39,8 +38,8 @@ public class Consignatiebon {
         return gebruiker;
     }
 
-    public long getidconsignatieBonnen() {
-        return idconsignatieBonnen;
+    public long getidConsignatiebon() {
+        return idConsignatiebon;
     }
 
     public LocalDate getDatumIn() {

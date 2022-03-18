@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "eigenschappen")
 public class Eigenschap {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long eigenschapId;
+    private long ideigenschap;
     private String clusterEigenschap;
     private String subEigenschap;
 
@@ -17,8 +17,8 @@ public class Eigenschap {
 
     protected Eigenschap() {};
 
-    public long getEigenschapId() {
-        return eigenschapId;
+    public long getidEigenschap() {
+        return ideigenschap;
     }
 
     public String getClusterEigenschap() {
