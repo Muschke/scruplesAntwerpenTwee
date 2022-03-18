@@ -25,7 +25,7 @@ public class Product {
     private Maat maat;
     @Enumerated(EnumType.STRING)
     private Soort soort;
-    private Byte[] barcode; //zoals handtekening denk ik dat dat zal zijn
+    private byte[] barcode; //zoals handtekening denk ik dat dat zal zijn
     private String beschrijving;
     private BigDecimal aankoopprijs;
     @Enumerated(EnumType.STRING)
@@ -33,7 +33,7 @@ public class Product {
     private boolean gestolen;
     private boolean solden;
 
-    public Product(Gebruiker gebruiker, Consignatiebon consignatiebon, Eigenschap eigenschap, Kleur kleur, Merk merk, Maat maat, Soort soort, Byte[] barcode,
+    public Product(Gebruiker gebruiker, Consignatiebon consignatiebon, Eigenschap eigenschap, Kleur kleur, Merk merk, Maat maat, Soort soort, byte[] barcode,
                    String beschrijving, BigDecimal aankoopprijs, Status status,boolean gestolen, boolean solden) {
         this.gebruiker = gebruiker;
         this.consignatiebon = consignatiebon;
@@ -84,7 +84,7 @@ public class Product {
         return soort;
     }
 
-    public Byte [] getBarcode() {
+    public byte [] getBarcode() {
         return barcode;
     }
 

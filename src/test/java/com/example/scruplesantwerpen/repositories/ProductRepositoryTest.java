@@ -1,10 +1,15 @@
 package com.example.scruplesantwerpen.repositories;
 
+import com.example.scruplesantwerpen.domain.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -26,12 +31,53 @@ class ProductRepositoryTest extends AbstractTransactionalJUnit4SpringContextTest
         this.consignatiebonRepository = consignatiebonRepository;
     }
 
+    private byte[] testBytes;
+    private Gebruiker gebruiker;
+    private Consignatiebon bon;
+    private Product product;
+    private Eigenschap eigenschap;
+    private Kleur kleur;
+    private Merk merk;
+    private Maat maat;
+
+    @BeforeEach
+    void beforeEach() {
+        try {
+            testBytes = readBytesFromFile("/home/musscheyannick/Pictures/test.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gebruiker = gebruikerRepository.findById(idVanTestgebruiker()).get();
+        bon = new Consignatiebon(gebruiker, LocalDate.now(), testBytes);
+        eigenschap = new Eigenschap("trui", "dikke trui");
+        kleur = new Kleur("rood");
+        merk = new Merk("Chanel");
+        maat = new Maat("M");
+        product = new Product(gebruiker, bon, eigenschap, kleur, merk, maat, Soort.HEREN, testBytes, "testbeschrijving",
+                BigDecimal.TEN, Status.TEKOOP, false, true);
+    }
+
+
+    @Test
+    void gestolenSetterWerkt() {
+        assertThat(product.getGestolen()).isFalse();
+        product.setGestolen(true);
+        assertThat(product.getGestolen()).isTrue();
+    }
+
     @Test
     void findById() {
         assertThat(productRepository.findById(idVanTestProduct()))
+                .hasValueSatisfying(product -> assertThat(product.getAankoopprijs())
+                        .isEqualByComparingTo("10"));
+
+    }
+
+    @Test
+    void verkoopprijsIs2komma5Keeraankoop() {
+        assertThat(productRepository.findById(idVanTestProduct()))
                 .hasValueSatisfying(product -> assertThat(product.getVerkoopprijs())
                         .isEqualByComparingTo("25"));
-
     }
 
 
@@ -49,5 +95,15 @@ class ProductRepositoryTest extends AbstractTransactionalJUnit4SpringContextTest
     private long idVanTestgebruiker() {
         return jdbcTemplate.queryForObject(
                 "select idgebruiker from gebruikers where naam = 'testNaam'", Long.class);
+    }
+
+    /*functie om bytes te genereren ter test*/
+    private static byte[] readBytesFromFile(String filePath) throws IOException {
+        File inputFile = new File(filePath);
+        FileInputStream inputStream = new FileInputStream(inputFile);
+        byte[] fileBytes = new byte[(int) inputFile.length()];
+        inputStream.read(fileBytes);
+        inputStream.close();
+        return fileBytes;
     }
 }
