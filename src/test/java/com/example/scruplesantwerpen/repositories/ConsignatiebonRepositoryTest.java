@@ -64,8 +64,7 @@ class ConsignatiebonRepositoryTest extends AbstractTransactionalJUnit4SpringCont
 
     private long idVanTestconsignatiebon() {
         return jdbcTemplate.queryForObject(
-                "select idconsignatieBonnen from consignatieBonnen where gebruiker = (select idgebruikers from " +
-                        "gebruikers where naam = 'testNaam')", Long.class);
+                "select idconsignatieBonnen from consignatieBonnen where gebruiker = (select idgebruikers from gebruikers where naam = 'testNaam')", Long.class);
     }
     /*functie om bytes te genereren ter test*/
     private static byte[] readBytesFromFile(String filePath) throws IOException {
