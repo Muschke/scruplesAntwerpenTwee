@@ -6,12 +6,12 @@ import java.util.*;
 
 @Entity
 @Table(name = "consignatieBonnen")
-@NamedEntityGraph(name = "Consignatiebon.metproductSetEnGebruiker",
-        attributeNodes = {@NamedAttributeNode("productSet"), @NamedAttributeNode("gebruiker")})
+/*@NamedEntityGraph(name = "Consignatiebon.metproductSetEnGebruiker",
+        attributeNodes = {@NamedAttributeNode("productSet"), @NamedAttributeNode("gebruiker")})*/
 public class Consignatiebon {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long consignatiebonId;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "gebruiker")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idgebruikers")
     private Gebruiker gebruiker;
     private LocalDate datumIn;
     private LocalDate datumUit;
