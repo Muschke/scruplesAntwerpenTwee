@@ -51,23 +51,27 @@ class ConsignatiebonRepositoryTest extends AbstractTransactionalJUnit4SpringCont
                 .hasValueSatisfying(
                         bon -> assertThat(bon.getIsGetekend()).isFalse());
     }
+    @Test
+    void welGetekendFunctieWerkt() {
+        assertThat(bon.getIsGetekend()).isTrue();
+    }
 
     @Test
     void findById() {
         assertThat(consignatiebonRepository.findById(idVanTestconsignatiebon()))
                 .hasValueSatisfying(
-                        bon -> assertThat(bon.getDatumIn()).isEqualTo("2022/01/17"));
+                        bon -> assertThat(bon.getDatumIn()).isEqualTo(LocalDate.of(2022, 1, 17)));
     }
 
     private long idVanTestgebruiker() {
         return jdbcTemplate.queryForObject(
-                "select idgebruikers from gebruikers where naam = 'testNaam'", Long.class);
+                "select idgebruiker from gebruikers where naam = 'testNaam'", Long.class);
     }
 
     private long idVanTestconsignatiebon() {
         return jdbcTemplate.queryForObject(
-                "select idconsignatieBonnen from consignatieBonnen where gebruiker = " +
-                        "(select idgebruikers from gebruikers where naam = 'testNaam')", Long.class);
+                "select idConsignatiebon from consignatieBonnen where gebruikerId = " +
+                        "(select idgebruiker from gebruikers where naam = 'testNaam')", Long.class);
     }
     /*functie om bytes te genereren ter test*/
     private static byte[] readBytesFromFile(String filePath) throws IOException {

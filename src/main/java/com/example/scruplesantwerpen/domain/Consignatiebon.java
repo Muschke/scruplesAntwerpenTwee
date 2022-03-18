@@ -13,12 +13,11 @@ import java.util.*;
 public class Consignatiebon {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idConsignatiebon;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idgebruikers")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "gebruikerId")
     private Gebruiker gebruiker;
     private LocalDate datumIn;
     private LocalDate datumUit;
     private byte[] handtekening;
-    public boolean isGetekend;
     @OneToMany @JoinColumn(name = "productId")
     //@OrderBy(atr1, atr2, ..)
     private Set<Product> productSet = new LinkedHashSet<>();
