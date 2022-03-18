@@ -1,0 +1,1 @@
+insert into maten (maat) values ('XL'), ('L'), ('M'), ('S'), ('XS');

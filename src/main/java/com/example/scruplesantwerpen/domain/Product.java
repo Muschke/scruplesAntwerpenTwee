@@ -9,6 +9,10 @@ import java.util.Objects;
 public class Product {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idgebruiker")
+    private Gebruiker gebruiker;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idConsignatiebon")
+    private Consignatiebon consignatiebon;
     @OneToOne @JoinColumn(name = "eigenschapId")
     private Eigenschap eigenschap;
     @OneToOne @JoinColumn(name = "kleurId")
@@ -22,14 +26,15 @@ public class Product {
     private Byte[] barcode; //zoals handtekening denk ik dat dat zal zijn
     private String beschrijving;
     private BigDecimal aankoopprijs;
-    private BigDecimal verkoopprijs; //akp.2
     @Enumerated(EnumType.STRING)
     private Status status;
-    private boolean gestolen;
+    private boolean gestolen = false;
     private boolean solden;
 
-    public Product(Eigenschap eigenschap, Kleur kleur, Merk merk, Maat maat, Soort soort, Byte[] barcode,
+    public Product(Gebruiker gebruiker, Consignatiebon consignatiebon, Eigenschap eigenschap, Kleur kleur, Merk merk, Maat maat, Soort soort, Byte[] barcode,
                    String beschrijving, BigDecimal aankoopprijs, Status status, boolean solden) {
+        this.gebruiker = gebruiker;
+        this.consignatiebon = consignatiebon;
         this.eigenschap = eigenschap;
         this.kleur = kleur;
         this.merk = merk;
@@ -38,13 +43,19 @@ public class Product {
         this.barcode = barcode;
         this.beschrijving = beschrijving;
         this.aankoopprijs = aankoopprijs;
-        setVerkoopprijs(verkoopprijs);
         this.status = status;
-        setGestolen(gestolen);
         this.solden = solden;
     }
 
     protected Product() {};
+
+    public Consignatiebon getConsignatiebon() {
+        return consignatiebon;
+    }
+
+    public Gebruiker getGebruiker() {
+        return gebruiker;
+    }
 
     public long getProductId() {
         return productId;
@@ -83,7 +94,7 @@ public class Product {
     }
 
     public BigDecimal getVerkoopprijs() {
-        return verkoopprijs;
+        return aankoopprijs.multiply(BigDecimal.valueOf(2.5));
     }
 
     public Status getStatus() {
@@ -120,9 +131,7 @@ public class Product {
         this.gestolen = false;
     }
 
-    public void setVerkoopprijs(BigDecimal verkoopprijs) {
-        this.verkoopprijs = aankoopprijs.multiply(BigDecimal.valueOf(2.5));
-    }
+
     /*equals en hashtagcode maken*/
 
     @Override

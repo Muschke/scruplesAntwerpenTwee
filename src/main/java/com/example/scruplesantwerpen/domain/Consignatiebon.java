@@ -8,24 +8,20 @@ import java.util.*;
 
 @Entity
 @Table(name = "consignatieBonnen")
-/*@NamedEntityGraph(name = "Consignatiebon.metproductSetEnGebruiker",
-        attributeNodes = {@NamedAttributeNode("productSet"), @NamedAttributeNode("gebruiker")})*/
 public class Consignatiebon {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idConsignatiebon;
     @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "gebruikerId")
     private Gebruiker gebruiker;
     private LocalDate datumIn;
-    private LocalDate datumUit;
     private byte[] handtekening;
-    @OneToMany @JoinColumn(name = "productId")
+    @OneToMany //@JoinColumn(name = "productId")
     //@OrderBy(atr1, atr2, ..)
     private Set<Product> productSet = new LinkedHashSet<>();
 
-    public Consignatiebon(Gebruiker gebruiker, LocalDate datumIn, LocalDate datumUit, byte[] handtekening) {
+    public Consignatiebon(Gebruiker gebruiker, LocalDate datumIn, byte[] handtekening) {
         this.gebruiker = gebruiker;
         this.datumIn = datumIn;
-        this.datumUit = datumUit;
         this.handtekening = handtekening;
     }
 
@@ -46,7 +42,7 @@ public class Consignatiebon {
     }
 
     public LocalDate getDatumUit() {
-        return datumUit;
+        return datumIn.plusMonths(6);
     }
 
     public byte[] getHandtekening() {

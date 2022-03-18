@@ -42,7 +42,7 @@ class ConsignatiebonRepositoryTest extends AbstractTransactionalJUnit4SpringCont
             e.printStackTrace();
         }
         gebruiker = gebruikerRepository.findById(idVanTestgebruiker()).get();
-        bon = new Consignatiebon(gebruiker, LocalDate.now(), LocalDate.now().plusMonths(6), testFotoByte);
+        bon = new Consignatiebon(gebruiker, LocalDate.now(), testFotoByte);
     }
 
     @Test
@@ -54,6 +54,11 @@ class ConsignatiebonRepositoryTest extends AbstractTransactionalJUnit4SpringCont
     @Test
     void welGetekendFunctieWerkt() {
         assertThat(bon.getIsGetekend()).isTrue();
+    }
+    @Test
+    void datumUitSettenWerkt() {
+        assertThat(consignatiebonRepository.findById(idVanTestconsignatiebon()))
+                .hasValueSatisfying(bon -> assertThat(bon.getDatumUit()).isEqualTo(LocalDate.of(2022,7,17)));
     }
 
     @Test

@@ -7,15 +7,15 @@ import javax.persistence.*;
 public class Maat {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long maatId;
-    private String naam;
+    private String maat;
 
     public Maat(String naam) {
-        this.naam = naam;
+        this.maat = maat;
     }
 
     protected Maat() {};
 
     public String getNaam() {
-        return naam;
+        return maat;
     }
 }
