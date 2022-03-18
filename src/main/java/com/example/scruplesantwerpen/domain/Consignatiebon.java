@@ -1,5 +1,7 @@
 package com.example.scruplesantwerpen.domain;
 
+import org.springframework.context.annotation.Import;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -10,7 +12,7 @@ import java.util.*;
         attributeNodes = {@NamedAttributeNode("productSet"), @NamedAttributeNode("gebruiker")})*/
 public class Consignatiebon {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long consignatiebonId;
+    private long idconsignatieBonnen;
     @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idgebruikers")
     private Gebruiker gebruiker;
     private LocalDate datumIn;
@@ -37,8 +39,8 @@ public class Consignatiebon {
         return gebruiker;
     }
 
-    public long getConsignatiebonId() {
-        return consignatiebonId;
+    public long getidconsignatieBonnen() {
+        return idconsignatieBonnen;
     }
 
     public LocalDate getDatumIn() {

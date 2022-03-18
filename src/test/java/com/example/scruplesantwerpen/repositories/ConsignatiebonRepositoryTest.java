@@ -6,6 +6,7 @@ import com.example.scruplesantwerpen.domain.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -25,16 +26,13 @@ class ConsignatiebonRepositoryTest extends AbstractTransactionalJUnit4SpringCont
     private static final String CONSIGNATIEBONNEN = "consignatieBonnen";
     private final GebruikerRepository gebruikerRepository;
     private final ConsignatiebonRepository consignatiebonRepository;
-
     public ConsignatiebonRepositoryTest(GebruikerRepository gebruikerRepository, ConsignatiebonRepository consignatiebonRepository) {
         this.gebruikerRepository = gebruikerRepository;
         this.consignatiebonRepository = consignatiebonRepository;
     }
-
     private byte[] testFotoByte;
+    private Gebruiker gebruiker;
     private Consignatiebon bon;
-
-
 
     @BeforeEach
     void beforeEach() {
@@ -43,7 +41,7 @@ class ConsignatiebonRepositoryTest extends AbstractTransactionalJUnit4SpringCont
         } catch (IOException e) {
             e.printStackTrace();
         }
-        var gebruiker = gebruikerRepository.findById(idVanTestconsignatiebon()).get();
+        gebruiker = gebruikerRepository.findById(idVanTestgebruiker()).get();
         bon = new Consignatiebon(gebruiker, LocalDate.now(), LocalDate.now().plusMonths(6), testFotoByte);
     }
 
@@ -61,10 +59,15 @@ class ConsignatiebonRepositoryTest extends AbstractTransactionalJUnit4SpringCont
                         bon -> assertThat(bon.getDatumIn()).isEqualTo("2022/01/17"));
     }
 
+    private long idVanTestgebruiker() {
+        return jdbcTemplate.queryForObject(
+                "select idgebruikers from gebruikers where naam = 'testNaam'", Long.class);
+    }
 
     private long idVanTestconsignatiebon() {
         return jdbcTemplate.queryForObject(
-                "select idconsignatieBonnen from consignatieBonnen where gebruiker = (select idgebruikers from gebruikers where naam = 'testNaam')", Long.class);
+                "select idconsignatieBonnen from consignatieBonnen where gebruiker = " +
+                        "(select idgebruikers from gebruikers where naam = 'testNaam')", Long.class);
     }
     /*functie om bytes te genereren ter test*/
     private static byte[] readBytesFromFile(String filePath) throws IOException {
