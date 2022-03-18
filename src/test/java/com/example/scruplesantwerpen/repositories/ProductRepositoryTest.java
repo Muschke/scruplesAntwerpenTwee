@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +30,8 @@ class ProductRepositoryTest extends AbstractTransactionalJUnit4SpringContextTest
     void findById() {
         assertThat(productRepository.findById(idVanTestProduct()))
                 .hasValueSatisfying(product -> assertThat(product.getVerkoopprijs())
-                        .isEqualTo(25));
+                        .isEqualByComparingTo("25"));
+
     }
 
 

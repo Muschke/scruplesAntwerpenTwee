@@ -6,16 +6,16 @@ import javax.persistence.*;
 @Table(name = "merken")
 public class Merk {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long merkId;
-    private String naam;
+    private long idmerk;
+    private String merk;
 
     public Merk(String naam) {
-        this.naam = naam;
+        this.merk = naam;
     }
 
     protected Merk() {};
 
     public String getNaam() {
-        return naam;
+        return merk;
     }
 }

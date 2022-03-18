@@ -20,7 +20,7 @@ class GebruikerRepositoryTest extends AbstractTransactionalJUnit4SpringContextTe
 
     private long idVanTestgebruiker() {
         return jdbcTemplate.queryForObject(
-                "select idgebruikers from gebruikers where naam = 'testNaam'", Long.class);
+                "select idgebruiker from gebruikers where naam = 'testNaam'", Long.class);
     }
 
     @Test

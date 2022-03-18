@@ -9,10 +9,12 @@ import java.util.Objects;
 public class Product {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idgebruiker")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "gebruikerId")
     private Gebruiker gebruiker;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "idConsignatiebon")
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "consignatiebonId")
     private Consignatiebon consignatiebon;
+
     @OneToOne @JoinColumn(name = "eigenschapId")
     private Eigenschap eigenschap;
     @OneToOne @JoinColumn(name = "kleurId")
@@ -28,11 +30,11 @@ public class Product {
     private BigDecimal aankoopprijs;
     @Enumerated(EnumType.STRING)
     private Status status;
-    private boolean gestolen = false;
+    private boolean gestolen;
     private boolean solden;
 
     public Product(Gebruiker gebruiker, Consignatiebon consignatiebon, Eigenschap eigenschap, Kleur kleur, Merk merk, Maat maat, Soort soort, Byte[] barcode,
-                   String beschrijving, BigDecimal aankoopprijs, Status status, boolean solden) {
+                   String beschrijving, BigDecimal aankoopprijs, Status status,boolean gestolen, boolean solden) {
         this.gebruiker = gebruiker;
         this.consignatiebon = consignatiebon;
         this.eigenschap = eigenschap;
@@ -44,6 +46,7 @@ public class Product {
         this.beschrijving = beschrijving;
         this.aankoopprijs = aankoopprijs;
         this.status = status;
+        this.gestolen = gestolen;
         this.solden = solden;
     }
 
@@ -97,11 +100,13 @@ public class Product {
         return aankoopprijs.multiply(BigDecimal.valueOf(2.5));
     }
 
+
+
     public Status getStatus() {
         return status;
     }
 
-    public boolean isGestolen() {
+    public boolean getGestolen() {
         return gestolen;
     }
 
@@ -128,7 +133,7 @@ public class Product {
 
 
     public void setGestolen(boolean gestolen) {
-        this.gestolen = false;
+        this.gestolen = gestolen;
     }
 
 

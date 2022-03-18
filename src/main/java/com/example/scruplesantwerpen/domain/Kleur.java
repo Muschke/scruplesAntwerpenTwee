@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name = "kleuren")
 public class Kleur {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long kleurId;
+    private long idkleur;
     private String kleur;
 
     public Kleur(String kleur) {
