@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments::head(title='Index', css=@{/css/levering.css})"></head>
+<head th:replace="fragments::head(title='Index', css=@{/css/css.css})"></head>
 
 
 <th:block th:if="${producten}">
@@ -40,10 +40,8 @@
         </tr>
         </tbody>
     </table>
+    <form th:action="@{/verwerken}" method="post">
+        <button name="barcodebutton">Genereer barcode</button>
+    </form>
 </th:block>
-
-
-
-
-
 </html>
