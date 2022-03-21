@@ -162,25 +162,21 @@ public class Product {
     }
 
     /*methode om barcode te genereren als er nog geen barcode is:
-    * we steken het id erin als een string en laten die ook onder de barcode weergeven als text*/
+    * we steken het id erin, laten aanvullen met nullen tot aan 12 getallen, 13e wordt automatisch gemaakt*/
 
     public void generateAndSetEAN13BarcodeImage() throws Exception {
         if(barcode != null) {
             throw new IllegalArgumentException();
         } else {
-
             var lengte = String.valueOf(getProductId()).length();
             StringBuilder langeId = new StringBuilder(String.valueOf(productId));
-
             if (lengte < 12) {
                 var verschil = 12 - lengte;
                 for (int i = 0; i < verschil; i++) {
                     langeId.append(0);
                 }
             }
-
-            barcode = BarcodeFactory.createEAN13(String.valueOf(langeId));
+                barcode = BarcodeFactory.createEAN13(String.valueOf(langeId));
         }
     }
-
 }
