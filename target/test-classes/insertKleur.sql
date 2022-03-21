@@ -1,0 +1,1 @@
+insert into kleuren (kleur) values ('rood'), ('blauw'), ('groen'), ('zwart'), ('wit'), ('bruin'), ('oranje');

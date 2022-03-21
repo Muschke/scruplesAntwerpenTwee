@@ -1,0 +1,1 @@
+insert into merken (merk) values ('Chanel'), ('Dior'), ('Essentielle');
