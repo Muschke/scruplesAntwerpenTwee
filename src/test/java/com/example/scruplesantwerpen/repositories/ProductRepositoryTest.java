@@ -53,10 +53,20 @@ class ProductRepositoryTest extends AbstractTransactionalJUnit4SpringContextTest
         kleur = new Kleur("rood");
         merk = new Merk("Chanel");
         maat = new Maat("M");
-        product = new Product(gebruiker, bon, eigenschap, kleur, merk, maat, Soort.HEREN, testBytes, "testbeschrijving",
+        product = new Product(gebruiker, bon, eigenschap, kleur, merk, maat, Soort.HEREN, null, "testbeschrijving",
                 BigDecimal.TEN, Status.TEKOOP, false, true);
     }
 
+    @Test
+    void barcodeSettenWerkt() {
+        assertThat(product.getBarcode()).isNull();
+        try {
+            product.generateAndSetEAN13BarcodeImage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertThat(product.getBarcode()).isNotNull();
+    }
 
     @Test
     void gestolenSetterWerkt() {

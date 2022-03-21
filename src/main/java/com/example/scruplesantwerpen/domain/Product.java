@@ -1,7 +1,16 @@
 package com.example.scruplesantwerpen.domain;
 
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.BarcodeImageHandler;
+
 import javax.persistence.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 @Entity
@@ -25,7 +34,9 @@ public class Product {
     private Maat maat;
     @Enumerated(EnumType.STRING)
     private Soort soort;
-    private byte[] barcode; //zoals handtekening denk ik dat dat zal zijn
+    private Barcode barcode;
+    /*de barcode mag null zijn bij input?, na input van alles, invoke methode creeër barcode.
+    * dat MOET dan na create worden uitgevoerd in transactional*/
     private String beschrijving;
     private BigDecimal aankoopprijs;
     @Enumerated(EnumType.STRING)
@@ -33,7 +44,7 @@ public class Product {
     private boolean gestolen;
     private boolean solden;
 
-    public Product(Gebruiker gebruiker, Consignatiebon consignatiebon, Eigenschap eigenschap, Kleur kleur, Merk merk, Maat maat, Soort soort, byte[] barcode,
+    public Product(Gebruiker gebruiker, Consignatiebon consignatiebon, Eigenschap eigenschap, Kleur kleur, Merk merk, Maat maat, Soort soort, Barcode barcode,
                    String beschrijving, BigDecimal aankoopprijs, Status status,boolean gestolen, boolean solden) {
         this.gebruiker = gebruiker;
         this.consignatiebon = consignatiebon;
@@ -84,7 +95,7 @@ public class Product {
         return soort;
     }
 
-    public byte [] getBarcode() {
+    public Barcode getBarcode() {
         return barcode;
     }
 
@@ -99,8 +110,6 @@ public class Product {
     public BigDecimal getVerkoopprijs() {
         return aankoopprijs.multiply(BigDecimal.valueOf(2.5));
     }
-
-
 
     public Status getStatus() {
         return status;
@@ -151,4 +160,27 @@ public class Product {
     public int hashCode() {
         return Objects.hash(eigenschap, kleur, merk, maat, soort, beschrijving, aankoopprijs);
     }
+
+    /*methode om barcode te genereren als er nog geen barcode is:
+    * we steken het id erin als een string en laten die ook onder de barcode weergeven als text*/
+
+    public void generateAndSetEAN13BarcodeImage() throws Exception {
+        if(barcode != null) {
+            throw new IllegalArgumentException();
+        } else {
+
+            var lengte = String.valueOf(getProductId()).length();
+            StringBuilder langeId = new StringBuilder(String.valueOf(productId));
+
+            if (lengte < 12) {
+                var verschil = 12 - lengte;
+                for (int i = 0; i < verschil; i++) {
+                    langeId.append(0);
+                }
+            }
+
+            barcode = BarcodeFactory.createEAN13(String.valueOf(langeId));
+        }
+    }
+
 }
