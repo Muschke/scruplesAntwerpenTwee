@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(title='Index', css=@{/css/levering.css})"></head>
 
-</body>
+
+<th:block th:if="${producten}">
+    <table>
+        <thead>
+        <th>Gebruiker</th>
+        <th>Consignatiebon</th>
+        <th>Eigenschap</th>
+        <th>Kleur</th>
+        <th>Merk</th>
+        <th>Maat</th>
+        <th>Soort</th>
+        <th>Barcode</th>
+        <th>Beschrijving</th>
+        <th>aankoopprijs</th>
+        <th>verkoopprijs</th>
+        <th>status</th>
+        <th>gestolen</th>
+        <th>solden</th>
+        </thead>
+        <tbody>
+        <tr th:each="product:${producten}" th:object="${product}">
+            <td th:text="*{getGebruiker().getNaam()}"></td>
+            <td th:text="*{getConsignatiebon().getidConsignatiebon()}"></td>
+            <td th:text="*{getEigenschap().getSubEigenschap()}"></td>
+            <td th:text="*{getKleur().getKleur()}"></td>
+            <td th:text="*{getMerk().getNaam()}"></td>
+            <td th:text="*{getMaat().getNaam()}"></td>
+            <td th:text="*{getSoort()}"></td>
+            <td th:image="*{getBarcode()}"></td>
+            <td th:text="*{getBeschrijving()}"></td>
+            <td th:text="*{getAankoopprijs()}"></td>
+            <td th:text="*{getVerkoopprijs()}"></td>
+            <td th:text="*{getStatus()}"></td>
+            <td th:text="*{getGestolen()}"></td>
+            <td th:text="*{getSolden()}"></td>
+        
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+
+
+
+
+
 </html>

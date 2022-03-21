@@ -119,7 +119,7 @@ public class Product {
         return gestolen;
     }
 
-    public boolean isSolden() {
+    public boolean getSolden() {
         return solden;
     }
     /*setters voor vkp en gestolen, en voor elke OTO*/
